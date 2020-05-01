@@ -55,13 +55,15 @@ cantidadMaximaDeHoras = foldr ((+).maximasHoras) 0
 tareasMasLargas :: Int -> [Tarea] -> [Tarea]
 
 --------version recursiva directa, hay que hacerla con foldTarea, lo dejo por si sirve de guia
-tareasMasLargas h []  =  []
-tareasMasLargas h [t] =  case t of 
-  Basica n h'            -> if h' > h then [Basica n h'] else []
-  Independientes t1 t2   -> if cantidadMaximaDeHoras [Independientes t1 t2] > h then [Independientes t1 t2] else []
-  DependeDe t1 t2 h      -> if cantidadMaximaDeHoras [DependeDe t1 t2 h] > h then [DependeDe t1 t2 h] else []
+--tareasMasLargas h []  =  []
+--tareasMasLargas h [t] =  case t of 
+  --Basica n h'            -> if h' > h then [Basica n h'] else []
+  --Independientes t1 t2   -> if cantidadMaximaDeHoras [Independientes t1 t2] > h then [Independientes t1 t2] else []
+  --DependeDe t1 t2 h      -> if cantidadMaximaDeHoras [DependeDe t1 t2 h] > h then [DependeDe t1 t2 h] else []
 
-tareasMasLargas h (t:ts) = tareasMasLargas h [t] ++ tareasMasLargas h ts
+--tareasMasLargas h (t:ts) = tareasMasLargas h [t] ++ tareasMasLargas h ts
+
+tareasMasLargas h ts = filter (\t -> maximasHoras(t) > h) ts
 
 
 -- Ejercicio 3
