@@ -71,7 +71,7 @@ tareasMasLargas h ts = filter (\t -> maximasHoras(t) > h) ts
 -- chauListas
 
 --chauListas :: [Tareas] -> Tarea
-chauListas = undefined
+chauListas xs = foldr Independientes (head xs) (tail xs)
 
 -- Ejercicio 4
 
