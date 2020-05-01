@@ -77,13 +77,13 @@ chauListas = undefined
 
 -- tareasBasicas
 
--- tareasBasicas :: Tarea -> [Tarea]
-tareasBasicas = undefined
+tareasBasicas :: Tarea -> [Tarea]
+tareasBasicas = foldTarea (\n h -> [Basica n h]) (\t1 t2 -> t1 ++ t2) (\t1 t2 h -> t1 ++ t2)
 
 -- esSubTareaDe
 
---esSubTareaDe :: String -> Tarea -> Bool
-esSubTareaDe = undefined
+esSubTareaDe :: String -> Tarea -> Bool
+esSubTareaDe s t = any (\n h -> n == s) tareasBasicas(t)
 
 -- tareasBasicasIniciales
 
