@@ -87,8 +87,8 @@ esSubTareaDe s = foldTarea (\n h -> s == n) (\t1 t2 -> t1 || t2) (\t1 t2 h -> t1
 
 -- tareasBasicasIniciales
 
---tareasBasicasIniciales :: Tarea -> [Tarea]
-tareasBasicasIniciales = undefined
+tareasBasicasIniciales :: Tarea -> [Tarea]
+tareasBasicasIniciales = foldTarea (\n h -> [Basica n h]) (\t1 t2 -> t1 ++ t2) (\t1 t2 h -> t2)
 
 -- tareasBasicasQueDependenDe
 
