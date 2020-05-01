@@ -83,7 +83,7 @@ tareasBasicas = foldTarea (\n h -> [Basica n h]) (\t1 t2 -> t1 ++ t2) (\t1 t2 h 
 -- esSubTareaDe
 
 esSubTareaDe :: String -> Tarea -> Bool
-esSubTareaDe s t = any (\n h -> n == s) tareasBasicas(t)
+esSubTareaDe s = foldTarea (\n h -> s == n) (\t1 t2 -> t1 || t2) (\t1 t2 h -> t1 || t2)
 
 -- tareasBasicasIniciales
 
