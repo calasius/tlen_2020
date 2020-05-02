@@ -93,7 +93,9 @@ tareasBasicasIniciales = foldTarea (\n h -> [Basica n h]) (\t1 t2 -> t1 ++ t2) (
 -- tareasBasicasQueDependenDe
 
 --tareasBasciasQueDependenDe :: String -> Tarea -> [Tarea]
-tareasBasicasQueDependenDe n t = undefined --filter (\tb -> esSubTareaDe n tb) (tareasBasicas t)
+
+--(String -> Int -> a) -> (a -> a -> a) -> (a -> a -> Int -> a ) -> Tarea -> a
+tareasBasicasQueDependenDe n = recTarea (\s i -> []) (\t1 t2 a1 a2 -> a1 ++ a2) (\t1 t2 a1 a2 h -> if (esSubTareaDe n t2) then (tareasBasicas t1) else a1 ++ a2)
 
 -- Ejercicio 5
 
@@ -130,6 +132,8 @@ tarea5 = DependeDe (Independientes tarea2 tarea3) tarea4 2
 lista1 = [tarea1]
 lista2 = [tarea2,tarea3,tarea4]
 lista3 = [tarea1,tarea5]
+
+Independientes (DependeDe (Independientes tarea2 tarea3) tarea4 2) tarea4
 
 sumas1 :: [LuzMagica Int]
 sumas1 = ((+1):sumas1)
