@@ -71,7 +71,7 @@ tareasMasLargas h ts = filter (\t -> maximasHoras(t) > h) ts
 -- chauListas
 
 --chauListas :: [Tareas] -> Tarea
-chauListas xs = foldr Independientes (head xs) (tail xs)
+chauListas xs = foldr (Independientes) (head xs) (tail xs)
 
 -- Ejercicio 4
 
@@ -93,7 +93,7 @@ tareasBasicasIniciales = foldTarea (\n h -> [Basica n h]) (\t1 t2 -> t1 ++ t2) (
 -- tareasBasicasQueDependenDe
 
 --tareasBasciasQueDependenDe :: String -> Tarea -> [Tarea]
-tareasBasicasQueDependenDe = undefined
+tareasBasicasQueDependenDe n t = undefined --filter (\tb -> esSubTareaDe n tb) (tareasBasicas t)
 
 -- Ejercicio 5
 
