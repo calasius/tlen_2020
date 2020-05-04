@@ -137,6 +137,7 @@ tarea6 = Independientes tarea1 tarea2
 lista1 = [tarea1]
 lista2 = [tarea2,tarea3,tarea4]
 lista3 = [tarea1,tarea5]
+lista4 = [tarea6]
 
 sumas1 :: [LuzMagica Int]
 sumas1 = ((+1):sumas1)
@@ -157,7 +158,8 @@ testsEj2 = test [
   3 ~=? cantidadMaximaDeHoras lista1,
   9 ~=? cantidadMaximaDeHoras lista3,
   [] ~=? tareasMasLargas 3 lista1,
-  [tarea5] ~=? tareasMasLargas 3 lista3
+  [tarea5] ~=? tareasMasLargas 3 lista3,
+  2 ~=? cantidadDeTareasBasicas lista4
   ]
 
 testsEj3 = test [
