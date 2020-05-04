@@ -105,17 +105,15 @@ nombre (Basica n h) = n
 
 cuelloDeBotella :: Tarea -> String
 cuelloDeBotella t = nombre (head (ordPorDep t))
+
 -- Ejercicio 6
 
 type LuzMagica a = (a -> a)
 
 -- pasos
-
---magia :: a -> LuzMagica a -> a
---magia zi m = m zi
-
-pasos :: (Eq a) => a -> [LuzMagica a] -> a -> Int 
-pasos zf (m:lm) zi = if zi == zf then 0 else 1 + pasos zf lm (m zi)
+pasos = undefined
+--pasos :: (Eq a) => a -> [LuzMagica a] -> a -> Int 
+--pasos zf (m:lm) zi = if zi == zf then 0 else 1 + pasos zf lm (m zi)
 
 -- Tests
 main :: IO Counts
