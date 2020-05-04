@@ -36,7 +36,7 @@ foldTarea casoBasico casoIndependientes casoDependeDe = recTarea (\n h -> b n h)
 
 -- cantidadDeTareasBasicas
 
-basicas :: Tarea -> Int --dada una tarea devuelve la cantidad de tareas basicas de esa tarea
+basicas :: Tarea -> Int 
 basicas = foldTarea (\n h -> 1) (\t1 t2 -> t1 + t2) (\t1 t2 h -> t1 + t2) 
 
 cantidadDeTareasBasicas :: [Tarea] -> Int
@@ -44,7 +44,7 @@ cantidadDeTareasBasicas = foldr ((+).(basicas)) 0
  
 -- cantidadMaximaDeHoras
 
-maximasHoras :: Tarea -> Int -- dada una tarea devuelve la cant max de horas para completar esa tarea
+maximasHoras :: Tarea -> Int 
 maximasHoras = foldTarea (\n h -> h) (\t1 t2 -> t1 + t2) (\t1 t2 h -> t1 + t2 + h) 
 
 cantidadMaximaDeHoras :: [Tarea] -> Int
@@ -54,15 +54,6 @@ cantidadMaximaDeHoras = foldr ((+).maximasHoras) 0
 
 tareasMasLargas :: Int -> [Tarea] -> [Tarea]
 
---------version recursiva directa, hay que hacerla con foldTarea, lo dejo por si sirve de guia
---tareasMasLargas h []  =  []
---tareasMasLargas h [t] =  case t of 
-  --Basica n h'            -> if h' > h then [Basica n h'] else []
-  --Independientes t1 t2   -> if cantidadMaximaDeHoras [Independientes t1 t2] > h then [Independientes t1 t2] else []
-  --DependeDe t1 t2 h      -> if cantidadMaximaDeHoras [DependeDe t1 t2 h] > h then [DependeDe t1 t2 h] else []
-
---tareasMasLargas h (t:ts) = tareasMasLargas h [t] ++ tareasMasLargas h ts
-
 tareasMasLargas h ts = filter (\t -> maximasHoras(t) > h) ts
 
 
@@ -70,7 +61,7 @@ tareasMasLargas h ts = filter (\t -> maximasHoras(t) > h) ts
 
 -- chauListas
 
---chauListas :: [Tareas] -> Tarea
+chauListas :: [Tarea] -> Tarea
 chauListas xs = foldr (Independientes) (head xs) (tail xs)
 
 -- Ejercicio 4
@@ -92,22 +83,39 @@ tareasBasicasIniciales = foldTarea (\n h -> [Basica n h]) (\t1 t2 -> t1 ++ t2) (
 
 -- tareasBasicasQueDependenDe
 
---tareasBasciasQueDependenDe :: String -> Tarea -> [Tarea]
-tareasBasicasQueDependenDe n t = undefined --filter (\tb -> esSubTareaDe n tb) (tareasBasicas t)
+tareasBasicasQueDependenDe :: String -> Tarea -> [Tarea]
+tareasBasicasQueDependenDe n = recTarea (\s i -> []) (\t1 t2 a1 a2 -> a1 ++ a2) (\t1 t2 a1 a2 h -> if (esSubTareaDe n t2) then (tareasBasicas t1) else a1 ++ a2)
 
 -- Ejercicio 5
 
 -- cuelloDeBotella
 
---cuelloDeBotella :: Tarea -> String
-cuelloDeBotella = undefined
+cantDep :: Tarea -> Int
+cantDep = foldTarea (\n h -> 0) (\t1 t2 -> t1 + t2) (\t1 t2 h -> 1 + t1 + t2)
 
+ordCantDep :: Tarea -> Tarea -> Ordering
+ordCantDep t1 t2 | cantDep t1 > cantDep t2  = LT
+                 | cantDep t1 <= cantDep t2 = GT
+
+ordPorDep :: Tarea -> [Tarea]
+ordPorDep t = sortBy (ordCantDep) (tareasBasicas t)
+
+nombre :: Tarea -> String
+nombre (Basica n h) = n
+
+cuelloDeBotella :: Tarea -> String
+cuelloDeBotella t = nombre (head (ordPorDep t))
 -- Ejercicio 6
 
 type LuzMagica a = (a -> a)
 
 -- pasos
-pasos = undefined
+
+--magia :: a -> LuzMagica a -> a
+--magia zi m = m zi
+
+pasos :: (Eq a) => a -> [LuzMagica a] -> a -> Int 
+pasos zf (m:lm) zi = if zi == zf then 0 else 1 + pasos zf lm (m zi)
 
 -- Tests
 main :: IO Counts
@@ -127,6 +135,7 @@ tarea2 = Basica "b" 1
 tarea3 = Basica "c" 1
 tarea4 = Basica "d" 2
 tarea5 = DependeDe (Independientes tarea2 tarea3) tarea4 2
+tarea6 = Independientes tarea1 tarea2
 lista1 = [tarea1]
 lista2 = [tarea2,tarea3,tarea4]
 lista3 = [tarea1,tarea5]
@@ -138,7 +147,10 @@ sumas123 = ((+1):((+2):((+3):sumas123)))
 
 testsEj1 = test [
   "a" ~=? recTarea (\n h -> n) (\t1 t2 s1 s2 -> s1) (\t1 t2 s1 s2 h -> s1) tarea1,
-  "a" ~=? foldTarea (\n h -> n) (\s1 s2 -> s1) (\s1 s2 h -> s1) tarea1
+  "a" ~=? foldTarea (\n h -> n) (\s1 s2 -> s1) (\s1 s2 h -> s1) tarea1,
+  "b" ~=? foldTarea (\n h -> n) (\s1 s2 -> s2) (\s1 s2 h -> s2) tarea6,
+  "b" ~=? recTarea (\n h -> n) (\t1 t2 s1 s2 -> s2) (\t1 t2 s1 s2 h -> s2) tarea6,
+  "b"  ~=? foldTarea (\n h -> n) (\s1 s2 -> s1) (\s1 s2 h -> s1) tarea5
   ]
 
 testsEj2 = test [
@@ -161,7 +173,7 @@ testsEj4 = test [
   True ~=? esSubTareaDe "b" tarea5,
   [tarea1] ~=? tareasBasicasIniciales tarea1,
   [tarea4] ~=? tareasBasicasIniciales tarea5,
-  --[] ~=? tareasBasicasQueDependenDe "b" tarea5,
+  [] ~=? tareasBasicasQueDependenDe "b" tarea5,
   [tarea2,tarea3] ~=? tareasBasicasQueDependenDe "d" tarea5
   ]
 
