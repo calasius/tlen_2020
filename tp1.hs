@@ -129,8 +129,8 @@ allTests = test [
   "nuestros_ejercicio1" ~: testsNuestrosEj1,
   "nuestros_ejercicio2" ~: testsNuestrosEj2,
   "nuestros_ejercicio3" ~: testsNuestrosEj3,
-  "nuestros_ejercicio4" ~: testsNuestrosEj4
-  --"nuestros_ejercicio5" ~: testsNuestrosEj5
+  "nuestros_ejercicio4" ~: testsNuestrosEj4,
+  "nuestros_ejercicio5" ~: testsNuestrosEj5
   ]
 
 tarea1 = Basica "a" 3
@@ -202,6 +202,7 @@ tar4 = Basica "z" 4
 tar5 = Independientes tar1 tar2
 tar6 = DependeDe tar3 tar4 2
 tar7 = Independientes tar1 (Independientes tar2 (Independientes tar4 tar0))
+tar8 = DependeDe tar3 (DependeDe tar2 tar4 6) 9
 l0 = [tar2, tar1]
 l1 = []
 l2 = [tar5,tar6]
@@ -245,7 +246,7 @@ testsNuestrosEj4 = test [
   [] ~=? tareasBasicasQueDependenDe "v" tar7
   ]
 
---testsNuestrosEj5 = test [
---  "a" ~=? cuelloDeBotella tarea1,
---  "d" ~=? cuelloDeBotella tarea5
---  ]
+testsNuestrosEj5 = test [
+  "z" ~=? cuelloDeBotella tar6,
+  "z" ~=? cuelloDeBotella tar8
+  ]
