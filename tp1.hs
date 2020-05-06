@@ -125,7 +125,12 @@ allTests = test [
   "ejercicio3" ~: testsEj3,
   "ejercicio4" ~: testsEj4,
   "ejercicio5" ~: testsEj5,
-  "ejercicio6" ~: testsEj6
+  "ejercicio6" ~: testsEj6,
+  "nuestros_ejercicio1" ~: testsNuestrosEj1,
+  "nuestros_ejercicio2" ~: testsNuestrosEj2,
+  "nuestros_ejercicio3" ~: testsNuestrosEj3,
+  "nuestros_ejercicio4" ~: testsNuestrosEj4
+  --"nuestros_ejercicio5" ~: testsNuestrosEj5
   ]
 
 tarea1 = Basica "a" 3
@@ -186,3 +191,61 @@ testsEj6 = test [
   5 ~=? pasos 10 sumas1 5,
   30 ~=? pasos 60 sumas123 0
   ]
+
+--Nuestros tests
+
+tar0 = Basica "v" 1
+tar1 = Basica "w" 1
+tar2 = Basica "x" 2
+tar3 = Basica "y" 3
+tar4 = Basica "z" 4
+tar5 = Independientes tar1 tar2
+tar6 = DependeDe tar3 tar4 2
+tar7 = Independientes tar1 (Independientes tar2 (Independientes tar4 tar0))
+l0 = [tar2, tar1]
+l1 = []
+l2 = [tar5,tar6]
+l3 = [tar1,tar5]
+l4 = [tar1,tar2]
+l5 = [tar1,tar2,tar4,tar0]
+l6 = [tar3,tar4]
+
+testsNuestrosEj1 = test [
+  "walter" ~=? foldTarea (\n h -> n ++ "alter") (\s1 s2 -> s1) (\s1 s2 h -> s1) tar1,
+  "x" ~=? foldTarea (\n h -> n) (\s1 s2 -> s2) (\s1 s2 h -> s1) tar5,
+  4 ~=? recTarea (\n h -> h) (\t1 t2 s1 s2 -> s2) (\t1 t2 s1 s2 h -> s2) tar6,
+  "y" ~=? recTarea (\n h -> n) (\t1 t2 s1 s2 -> s2) (\t1 t2 s1 s2 h -> s1) tar6
+  ]
+
+testsNuestrosEj2 = test [
+  0 ~=? cantidadDeTareasBasicas l1,
+  4 ~=? cantidadDeTareasBasicas l2,
+  12 ~=? cantidadMaximaDeHoras l2,
+  3 ~=? cantidadMaximaDeHoras l3,
+  0 ~=? cantidadMaximaDeHoras l1,
+  [] ~=? tareasMasLargas 0 l1,
+  [tar5,tar6] ~=? tareasMasLargas 0 l2
+  ]
+
+testsNuestrosEj3 = test [
+  tar5 ~=? chauListas l0,
+  tar7 ~=? chauListas l5
+  ]
+
+testsNuestrosEj4 = test [
+  l5 ~=? tareasBasicas tar7,
+  l4 ~=? tareasBasicas tar5,
+  l6 ~=? tareasBasicas tar6,
+  True ~=? esSubTareaDe "x" tar7,
+  True ~=? esSubTareaDe "z" tar6,
+  False ~=? esSubTareaDe "a" tar5,
+  [tar4] ~=? tareasBasicasIniciales tar6,
+  l5 ~=? tareasBasicasIniciales tar7,
+  [tar3] ~=? tareasBasicasQueDependenDe "z" tar6,
+  [] ~=? tareasBasicasQueDependenDe "v" tar7
+  ]
+
+--testsNuestrosEj5 = test [
+--  "a" ~=? cuelloDeBotella tarea1,
+--  "d" ~=? cuelloDeBotella tarea5
+--  ]
