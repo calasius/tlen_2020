@@ -217,6 +217,32 @@ l4 = [tar1,tar2]
 l5 = [tar1,tar2,tar4,tar0]
 l6 = [tar3,tar4]
 l7 = [tar0, tar1, tar2, tar4]
+l8 = [tar0, tar0, tar0, tar0]
+
+
+doble :: [LuzMagica Int]
+doble = ((*2):doble)
+
+aa :: [LuzMagica String]
+aa = ((++"a"):aa)
+
+data Arbol a = Hoja a | Nodo a (Arbol a) (Arbol a) deriving (Show, Read, Eq)
+
+arbol1 = (Nodo True (Hoja False) (Nodo True (Hoja True) (Hoja False)))
+arbol2 = (Nodo True (Nodo True (Hoja False) (Hoja True)) (Hoja False))
+
+
+foldA :: (a -> b) -> (a -> b -> b -> b) -> Arbol a -> b
+foldA casoHoja casoNodo (Hoja x) = casoHoja x
+foldA casoHoja casoNodo (Nodo x left right) = casoNodo x (rec left) (rec right)
+      where rec = foldA casoHoja casoNodo 
+
+espejo :: Arbol a -> Arbol a
+espejo = foldA Hoja (\x right left -> Nodo x left right)
+
+espejar :: [LuzMagica (Arbol Bool)]
+espejar = (espejo : espejar)
+
 
 testsNuestrosEj1 = test [
   "walter" ~=? foldTarea (\n h -> n ++ "alter") (\s1 s2 -> s1) (\s1 s2 h -> s1) tar1,
@@ -231,6 +257,7 @@ testsNuestrosEj2 = test [
   12 ~=? cantidadMaximaDeHoras l2,
   4 ~=? cantidadMaximaDeHoras l3,
   0 ~=? cantidadMaximaDeHoras l1,
+  4 ~=? cantidadMaximaDeHoras l8,
   [] ~=? tareasMasLargas 0 l1,
   [tar5,tar6] ~=? tareasMasLargas 0 l2
   ]
@@ -257,3 +284,5 @@ testsNuestrosEj5 = test [
   "z" ~=? cuelloDeBotella tar6,
   "z" ~=? cuelloDeBotella tar8
   ]
+
+testsNuestrosEj6 = test [7 ~=? pasos 128 doble 1, 5 ~=? pasos "Holaaaaa" aa "Hol", 1 ~=? pasos arbol2 espejar arbol1]
