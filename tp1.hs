@@ -285,4 +285,7 @@ testsNuestrosEj5 = test [
   "z" ~=? cuelloDeBotella tar8
   ]
 
-testsNuestrosEj6 = test [7 ~=? pasos 128 doble 1, 5 ~=? pasos "Holaaaaa" aa "Hol", 1 ~=? pasos arbol2 espejar arbol1]
+testsNuestrosEj6 = test [7 ~=? pasos 128 doble 1, 
+  5 ~=? pasos "Holaaaaa" aa "Hol", 
+  1 ~=? pasos arbol2 espejar arbol1
+  ]
