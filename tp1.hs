@@ -111,7 +111,9 @@ cuelloDeBotella t = nombre (head (ordPorDep t))
 type LuzMagica a = (a -> a)
 
 -- pasos
-pasos = undefined
+compose lms = foldr (\lm rec -> lm . rec) (head lms) (tail lms)
+potencias lms = [compose(take i lms) | i <- [1..]]
+pasos zi lms zf = foldr (\p rec -> if (p zi) == zf then 0 else rec+1) 0 (potencias (id:lms))
 --pasos :: (Eq a) => a -> [LuzMagica a] -> a -> Int 
 --pasos zf (m:lm) zi = if zi == zf then 0 else 1 + pasos zf lm (m zi)
 
