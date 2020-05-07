@@ -210,6 +210,7 @@ l3 = [tar1,tar5]
 l4 = [tar1,tar2]
 l5 = [tar1,tar2,tar4,tar0]
 l6 = [tar3,tar4]
+l7 = [tar0, tar1, tar2, tar4]
 
 testsNuestrosEj1 = test [
   "walter" ~=? foldTarea (\n h -> n ++ "alter") (\s1 s2 -> s1) (\s1 s2 h -> s1) tar1,
@@ -230,7 +231,7 @@ testsNuestrosEj2 = test [
 
 testsNuestrosEj3 = test [
   tar5 ~=? chauListas l0,
-  tar7 ~=? chauListas l5
+  tar7 ~=? chauListas l7
   ]
 
 testsNuestrosEj4 = test [
