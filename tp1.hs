@@ -136,7 +136,8 @@ allTests = test [
   "nuestros_ejercicio2" ~: testsNuestrosEj2,
   "nuestros_ejercicio3" ~: testsNuestrosEj3,
   "nuestros_ejercicio4" ~: testsNuestrosEj4,
-  "nuestros_ejercicio5" ~: testsNuestrosEj5
+  "nuestros_ejercicio5" ~: testsNuestrosEj5,
+  "nuestros_ejercicio6" ~: testsNuestrosEj6
   ]
 
 tarea1 = Basica "a" 3
